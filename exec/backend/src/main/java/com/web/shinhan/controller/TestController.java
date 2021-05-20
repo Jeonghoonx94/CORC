@@ -58,10 +58,10 @@ public class TestController {
   @GetMapping("/user/{userId}")
   public ResponseEntity<BlockUserDto> getUser(@PathVariable String userId) {
     logger.info("get user");
-    try{
+    try {
       BlockUserDto rs = blockchainService.getUser(userId).block();
       return new ResponseEntity<>(rs, HttpStatus.OK);
-    }catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
       return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }

@@ -10,8 +10,7 @@ import com.web.shinhan.entity.Admin;
 
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Integer>,
-    PagingAndSortingRepository<Admin, Integer>,
-    QueryByExampleExecutor<Admin> {
+    PagingAndSortingRepository<Admin, Integer>, QueryByExampleExecutor<Admin> {
 
   @Query("select password from admin where email = :email")
   String findPwd(String email);

@@ -34,8 +34,7 @@ public class BlockchainController {
 
     try {
       return new ResponseEntity<>(blockchainService.getPeersStatus().block(), HttpStatus.OK);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       logger.error(e.getMessage());
 
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

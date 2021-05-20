@@ -9,7 +9,6 @@ import com.web.shinhan.entity.Sido;
 
 @Repository
 public interface SidoRepository extends JpaRepository<Sido, Integer>,
-    PagingAndSortingRepository<Sido, Integer>,
-    QueryByExampleExecutor<Sido> {
+    PagingAndSortingRepository<Sido, Integer>, QueryByExampleExecutor<Sido> {
 
 }

@@ -100,8 +100,7 @@ public class AdminController {
   @ApiOperation(value = "회원 결제 내역", notes = "회원의 결제 내역을 가지고 온다.", response = HashMap.class)
   @GetMapping("/user/payment")
   public ResponseEntity<Map<String, Object>> findUserPayment(@RequestParam int userId,
-      Pageable pageable)
-      throws Exception {
+      Pageable pageable) throws Exception {
     logger.info("findUserPayment - 호출");
 
     Map<String, Object> resultMap = new HashMap<>();
@@ -174,15 +173,15 @@ public class AdminController {
     user.setLimitTime(LocalDateTime.now().plusDays(30));
 
     try {
-		if(!userService.employeeNumCheck(user.getEmployeeNum())) {
-			userService.registUser(user);
-			flag = true;
-			status = HttpStatus.ACCEPTED;
-		}else {
-			flag = false;
-			status = HttpStatus.UNAUTHORIZED;
-		    return new ResponseEntity<Boolean>(flag, status);
-		}
+      if (!userService.employeeNumCheck(user.getEmployeeNum())) {
+        userService.registUser(user);
+        flag = true;
+        status = HttpStatus.ACCEPTED;
+      } else {
+        flag = false;
+        status = HttpStatus.UNAUTHORIZED;
+        return new ResponseEntity<Boolean>(flag, status);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -191,10 +190,11 @@ public class AdminController {
     return new ResponseEntity<Boolean>(flag, status);
   }
 
-  @ApiOperation(value = "회원 상태 변경", notes = "회원들의 상태를 변경하여 성공 여부에 따라 true, false를 반환한다.", response = Boolean.class)
+  @ApiOperation(value = "회원 상태 변경", notes = "회원들의 상태를 변경하여 성공 여부에 따라 true, false를 반환한다.",
+      response = Boolean.class)
   @PutMapping("/user/status")
   public ResponseEntity<Boolean> userStatus(@RequestBody int[] userIds,
-		  @RequestParam int userStatus) {
+      @RequestParam int userStatus) {
     logger.info("userStatus - 호출");
 
     HttpStatus status = HttpStatus.ACCEPTED;
@@ -256,13 +256,13 @@ public class AdminController {
 
   @ApiOperation(value = "회원 한도 수정", notes = "회원의 한도를 수정한다.", response = Boolean.class)
   @PutMapping("/user/modify/cardlimit")
-  public ResponseEntity<Boolean> modifyCardLimit(@RequestParam int limit, @RequestBody int[] userIds
-      ) {
+  public ResponseEntity<Boolean> modifyCardLimit(@RequestParam int limit,
+      @RequestBody int[] userIds) {
     logger.info("modifyCardLimit - 호출");
 
     HttpStatus status = HttpStatus.ACCEPTED;
     boolean flag = false;
-    
+
     try {
       for (int userId : userIds) {
         flag = userService.modifyCardLimit(userId, limit);
@@ -278,7 +278,7 @@ public class AdminController {
 
     return new ResponseEntity<Boolean>(flag, status);
   }
-  
+
   @ApiOperation(value = "초기화", notes = "선택된 유저의 잔액을 초기화한다.", response = Boolean.class)
   @PutMapping("/user/reset")
   public ResponseEntity<Boolean> resetBalance(@RequestBody int[] userIds) {
@@ -331,7 +331,7 @@ public class AdminController {
 
     HttpStatus status = HttpStatus.ACCEPTED;
     boolean flag = false;
-    
+
     try {
       for (int storeId : storeIds) {
         flag = paymentService.confirmPayment(storeId);
@@ -348,39 +348,40 @@ public class AdminController {
 
     return new ResponseEntity<Boolean>(flag, status);
   }
-  
+
   @ApiOperation(value = "정산", notes = "선택된 가맹점의 미정산 금액을 정산한다.", response = Boolean.class)
   @PutMapping("/payment/status")
-  public ResponseEntity<Boolean> paymentStatus(@RequestBody int[] paymentIds, @RequestParam int paymentStatus) {
+  public ResponseEntity<Boolean> paymentStatus(@RequestBody int[] paymentIds,
+      @RequestParam int paymentStatus) {
     logger.info("paymentStatus - 호출 ");
 
     HttpStatus status = HttpStatus.ACCEPTED;
     boolean flag = false;
-    
+
     try {
-    	if(paymentIds.length != 0) {
-         if (paymentStatus == 2) {
+      if (paymentIds.length != 0) {
+        if (paymentStatus == 2) {
           for (int paymentId : paymentIds) {
             paymentService.allowPayment(paymentId);
           }
-         } else if (paymentStatus == 0) {
+        } else if (paymentStatus == 0) {
           for (int paymentId : paymentIds) {
             paymentService.denyPayment(paymentId);
           }
-         }
-    	} else {
-    		return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
-    	}
-        flag = true;
-        status = HttpStatus.ACCEPTED;
-      } catch (Exception e) {
-        e.printStackTrace();
-        status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+      } else {
+        return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
       }
+      flag = true;
+      status = HttpStatus.ACCEPTED;
+    } catch (Exception e) {
+      e.printStackTrace();
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+    }
 
     return new ResponseEntity<Boolean>(flag, status);
   }
-  
+
   @ApiOperation(value = "가맹점 목록 조회", notes = "가맹점들의 정보를 반환한다.", response = HashMap.class)
   @GetMapping("/store/list")
   public ResponseEntity<Map<String, Object>> findStoreList(Pageable pageable) throws Exception {
@@ -447,8 +448,7 @@ public class AdminController {
   @ApiOperation(value = "가맹점 결제 내역", notes = "가맹점의 결제 내역을 가지고 온다.", response = HashMap.class)
   @GetMapping("/store/payment")
   public ResponseEntity<Map<String, Object>> findStorePayment(@RequestParam int storeId,
-      Pageable pageable)
-      throws Exception {
+      Pageable pageable) throws Exception {
     logger.info("findStorePayment - 호출");
 
     Map<String, Object> resultMap = new HashMap<>();
@@ -509,7 +509,8 @@ public class AdminController {
     return new ResponseEntity<Boolean>(flag, status);
   }
 
-  @ApiOperation(value = "가맹점 상태 처리", notes = "가맹점들의 상태를 처리하여 성공 여부에 따라 true, false를 반환한다.", response = Boolean.class)
+  @ApiOperation(value = "가맹점 상태 처리", notes = "가맹점들의 상태를 처리하여 성공 여부에 따라 true, false를 반환한다.",
+      response = Boolean.class)
   @PutMapping("/store/status")
   public ResponseEntity<Boolean> storeApplication(@RequestBody int[] storeIds,
       @RequestParam int storeStatus) {
@@ -519,18 +520,18 @@ public class AdminController {
     boolean flag = false;
 
     try {
-      if(storeIds.length != 0) {
-      if (storeStatus == 2) {
-        for (int userId : storeIds) {
-          storeService.allowStoreApplication(userId);
+      if (storeIds.length != 0) {
+        if (storeStatus == 2) {
+          for (int userId : storeIds) {
+            storeService.allowStoreApplication(userId);
+          }
+        } else if (storeStatus == 0) {
+          for (int storeId : storeIds) {
+            storeService.denyStoreApplication(storeId);
+          }
         }
-      } else if (storeStatus == 0) {
-        for (int storeId : storeIds) {
-          storeService.denyStoreApplication(storeId);
-        }
-      }
       } else {
-    	  return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
       }
       flag = true;
       status = HttpStatus.ACCEPTED;

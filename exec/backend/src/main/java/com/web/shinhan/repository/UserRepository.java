@@ -11,9 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.web.shinhan.entity.User;
 
 @Repository
-public interface UserRepository
-    extends JpaRepository<User, Integer>, PagingAndSortingRepository<User, Integer>,
-    QueryByExampleExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Integer>,
+    PagingAndSortingRepository<User, Integer>, QueryByExampleExecutor<User> {
 
   boolean existsByEmail(String email);
 

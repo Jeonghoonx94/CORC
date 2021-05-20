@@ -110,17 +110,17 @@ public class StoreService {
   @Transactional
   public void allowStoreApplication(int storeId) {
     Store store = storeRepository.findByStoreId(storeId);
-      StoreDto storeDto = mapper.INSTANCE.storeToDto(store);
-      storeDto.setAccepted(2);
-      storeRepository.save(storeDto.toEntity());
+    StoreDto storeDto = mapper.INSTANCE.storeToDto(store);
+    storeDto.setAccepted(2);
+    storeRepository.save(storeDto.toEntity());
   }
 
   @Transactional
   public void denyStoreApplication(int storeId) {
     Store store = storeRepository.findByStoreId(storeId);
-      StoreDto storeDto = mapper.INSTANCE.storeToDto(store);
-      storeDto.setAccepted(0);
-      storeRepository.save(storeDto.toEntity());
+    StoreDto storeDto = mapper.INSTANCE.storeToDto(store);
+    storeDto.setAccepted(0);
+    storeRepository.save(storeDto.toEntity());
   }
 
   public boolean login(StoreDto storeDto) {
@@ -129,8 +129,8 @@ public class StoreService {
     if (passwordEncoder.matches(storeDto.getPassword(), encodedPassword)
         && storeDto.getEmail().equals(dbStore.getEmail())) {
       storeDto.setPassword(encodedPassword);
-      boolean result = storeRepository
-          .existsByEmailAndPassword(storeDto.getEmail(), storeDto.getPassword());
+      boolean result =
+          storeRepository.existsByEmailAndPassword(storeDto.getEmail(), storeDto.getPassword());
       return result;
     } else {
       return false;
@@ -152,14 +152,12 @@ public class StoreService {
     try {
       BlockUserDto blockUser = blockchainService.getUser(user.getEmail()).block();
       int balance = paymentService.findNotConfirmed(user.getStoreId());
-      if (user.getEmail().equals(blockUser.getUserId()) &&
-          balance == blockUser.getBalance()) {
+      if (user.getEmail().equals(blockUser.getUserId()) && balance == blockUser.getBalance()) {
         user.setVerified(true);
       }
 
       return true;
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       return false;
     }
   }

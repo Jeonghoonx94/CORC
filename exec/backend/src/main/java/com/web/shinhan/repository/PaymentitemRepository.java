@@ -11,8 +11,8 @@ import com.web.shinhan.entity.Paymentitem;
 
 @Repository
 public interface PaymentitemRepository extends JpaRepository<Paymentitem, Integer>,
-		PagingAndSortingRepository<Paymentitem, Integer>, QueryByExampleExecutor<Paymentitem> {
+    PagingAndSortingRepository<Paymentitem, Integer>, QueryByExampleExecutor<Paymentitem> {
 
-	List<Paymentitem> findByPaymentId(int paymentId);
+  List<Paymentitem> findByPaymentId(int paymentId);
 
 }

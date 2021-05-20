@@ -17,9 +17,10 @@ import com.web.shinhan.entity.Payment;
 public interface PaymentRepository extends JpaRepository<Payment, Integer>,
     PagingAndSortingRepository<Payment, Integer>, QueryByExampleExecutor<Payment> {
 
-  @Query(value = "select p.paymentId, p.userId, p.storeId, p.total, p.date, p.status, p.testCode, p.transactionId from payment p inner join (select s.storeId from store s where s.accepted = 2) as t using(storeId)",
-		  countQuery = "select count(*) from payment p inner join (select s.storeId from store s where s.accepted = 2) as t using(storeId)",
-	      nativeQuery = true)
+  @Query(
+      value = "select p.paymentId, p.userId, p.storeId, p.total, p.date, p.status, p.testCode, p.transactionId from payment p inner join (select s.storeId from store s where s.accepted = 2) as t using(storeId)",
+      countQuery = "select count(*) from payment p inner join (select s.storeId from store s where s.accepted = 2) as t using(storeId)",
+      nativeQuery = true)
   Page<Payment> findAll(Pageable pageable);
 
   @Query("select p from payment p where userId = :userId")
@@ -37,12 +38,16 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>,
   @Query("select p from payment p where status != 0")
   List<Payment> findAllByStatus();
 
-  @Query(value = "select p.total from payment p join store s using(storeId) where p.status != 0 and s.accepted = 2", nativeQuery = true)
+  @Query(
+      value = "select p.total from payment p join store s using(storeId) where p.status != 0 and s.accepted = 2",
+      nativeQuery = true)
   List<Integer> calcTotalExpense();
 
   Payment findByPaymentId(int userId);
 
-  @Query(value = "select p.total from payment p join store s using(storeId) where p.status = 1 and s.accepted = 2", nativeQuery = true)
+  @Query(
+      value = "select p.total from payment p join store s using(storeId) where p.status = 1 and s.accepted = 2",
+      nativeQuery = true)
   List<Integer> findTotalByStatus();
 
   @Query("select storeId, sum(total) as total from payment group by storeId")
@@ -73,5 +78,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>,
   int countUserPayment(int userId);
 
   @Query("select p from payment p where storeId= :storeId and date between :startDate and :endDate")
-  Page<Payment> findAllByStoreCustom(int storeId, Pageable pageable, LocalDateTime startDate, LocalDateTime endDate);
+  Page<Payment> findAllByStoreCustom(int storeId, Pageable pageable, LocalDateTime startDate,
+      LocalDateTime endDate);
 }

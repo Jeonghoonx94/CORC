@@ -53,9 +53,9 @@ public class BoardController {
   @Autowired
   BlockchainService blockchainService;
 
-  @ApiOperation(value = "사용된 금액", notes = "assignedTotal: 배정된 총액\r\n"
-      + "notConfirmed: 정산되어야 하는 금액\r\n"
-      + "used: 사용된 금액", response = HashMap.class)
+  @ApiOperation(value = "사용된 금액",
+      notes = "assignedTotal: 배정된 총액\r\n" + "notConfirmed: 정산되어야 하는 금액\r\n" + "used: 사용된 금액",
+      response = HashMap.class)
   @GetMapping("/expenses")
   public ResponseEntity<Map<String, Object>> expenses() {
     logger.info("expenses - 호출");
@@ -102,7 +102,7 @@ public class BoardController {
 
     return new ResponseEntity<Map<Integer, Object>>(resultMap, status);
   }
-  
+
   @ApiOperation(value = "일간 소비량", notes = "일간 소비량을 보여준다.")
   @GetMapping("/expenses/day")
   public ResponseEntity<Map<Integer, Object>> expenseByDay(@RequestParam int year) {
@@ -195,8 +195,7 @@ public class BoardController {
   public ResponseEntity<VerityResult<User>> getVerifiedUser() {
     try {
       return new ResponseEntity<>(blockchainService.getUserVerityResult(), HttpStatus.OK);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -204,10 +203,9 @@ public class BoardController {
   @ApiOperation(value = "가맹점 데이터 검증", notes = "가맹점 데이터 검증 결과를 반환한다.")
   @GetMapping("/store/verified")
   public ResponseEntity<VerityResult<Store>> getVerifiedStore() {
-    try{
+    try {
       return new ResponseEntity<>(blockchainService.getStoreVerityResult(), HttpStatus.OK);
-    }
-    catch(Exception e) {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -217,8 +215,7 @@ public class BoardController {
   public ResponseEntity<VerityResult<Payment>> getVerifiedTransaction() {
     try {
       return new ResponseEntity<>(blockchainService.getTransactionVerityResult(), HttpStatus.OK);
-    }
-    catch(Exception e) {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
