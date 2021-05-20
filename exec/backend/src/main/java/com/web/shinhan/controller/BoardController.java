@@ -157,7 +157,6 @@ public class BoardController {
     HttpStatus status = HttpStatus.OK;
     Page<StoreDto> page = null;
 
-    // 회원 정보 조회
     try {
       page = storeService.findAllUnassignedStore(pageable);
       resultMap.put("storeList", page);

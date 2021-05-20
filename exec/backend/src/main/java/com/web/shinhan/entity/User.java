@@ -3,12 +3,6 @@ package com.web.shinhan.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -73,7 +67,6 @@ public class User {
     this.limitTime = limitTime;
     this.sido = sido;
     this.gugun = gugun;
-
     this.testCode = testCode;
   }
 

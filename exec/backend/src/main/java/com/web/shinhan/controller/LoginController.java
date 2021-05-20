@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.shinhan.model.AdminDto;
 import com.web.shinhan.model.StoreDto;
 import com.web.shinhan.model.UserDto;
-import com.web.shinhan.model.service.ETCService;
 import com.web.shinhan.model.service.JwtService;
 import com.web.shinhan.model.service.StoreService;
 import com.web.shinhan.model.service.UserService;

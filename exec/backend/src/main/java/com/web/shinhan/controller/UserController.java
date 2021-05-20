@@ -1,9 +1,6 @@
 package com.web.shinhan.controller;
 
-import com.web.shinhan.model.BlockUserDto;
-import com.web.shinhan.model.TransactionDto;
 import com.web.shinhan.model.service.BlockchainService;
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,10 +31,8 @@ import com.web.shinhan.model.service.PaymentService;
 import com.web.shinhan.model.service.PaymentitemService;
 import com.web.shinhan.model.service.StoreService;
 import com.web.shinhan.model.service.UserService;
-import com.web.shinhan.repository.PaymentRepository;
 
 import io.swagger.annotations.ApiOperation;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/user")
@@ -76,7 +70,6 @@ public class UserController {
         Sort.by(Sort.Direction.DESC, "date"));
 
     try {
-//			resultMap.put("info", userService.findUserInfo(userId));
       page = paymentService.findUserPayment(userId, pageable);
       resultMap.put("paymentList", page);
       status = HttpStatus.ACCEPTED;
@@ -94,11 +87,13 @@ public class UserController {
       @RequestParam int startDate, @RequestParam int endDate, @RequestParam(required = false) boolean forStatistics, 
       Pageable pageable) throws Exception {
     logger.info("findUserPaymentCustom - 호출");
+    
     Map<String, Object> resultMap = new HashMap<>();
     Page<PaymentDto> page = null;
     HttpStatus status = HttpStatus.ACCEPTED;
     pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
         Sort.by(Sort.Direction.DESC, "date"));
+    
     if (forStatistics) {
 		pageable = Pageable.unpaged();
 	}

@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -61,25 +57,5 @@ public class Payment {
     this.transactionId = transactionId;
     this.testCode = testCode;
   }
-
-@Override
-public String toString() {
-	return "Payment [paymentId=" + paymentId + ", userId=" + userId + ", storeId=" + storeId + ", total=" + total
-			+ ", status=" + status + ", date=" + date + ", transactionId=" + transactionId + ", testCode=" + testCode
-			+ ", paymentitem=" + paymentitem + ", user=" + user + ", store=" + store + "]";
-}
-
-//	@JsonManagedReference
-//	@OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
-//	private List<Store> store = new ArrayList<>();
-//	(cascade = { CascadeType.ALL })
-//	@JoinColumn(name = "paymentId", insertable = false, updatable = false)
-
-//	@OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
-////	(cascade = { CascadeType.ALL })
-////	@JoinColumn(name = "paymentId", insertable = false, updatable = false)
-//	private Store store;
-  
-  
 
 }

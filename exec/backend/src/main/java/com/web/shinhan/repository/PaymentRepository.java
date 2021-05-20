@@ -38,13 +38,11 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>,
   List<Payment> findAllByStatus();
 
   @Query(value = "select p.total from payment p join store s using(storeId) where p.status != 0 and s.accepted = 2", nativeQuery = true)
-//  @Query("select total from payment where status != 0")
   List<Integer> calcTotalExpense();
 
   Payment findByPaymentId(int userId);
 
   @Query(value = "select p.total from payment p join store s using(storeId) where p.status = 1 and s.accepted = 2", nativeQuery = true)
-//  @Query("select total from payment where status = 1")
   List<Integer> findTotalByStatus();
 
   @Query("select storeId, sum(total) as total from payment group by storeId")
@@ -66,12 +64,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>,
   Page<Payment> findAllByCustom(int userId, Pageable pageable, LocalDateTime startDate,
       LocalDateTime endDate);
 
-  //	@Query("select paymentId from payment order by paymentId desc limit 1")
-//	int findByOrderByPaymentIdDesc();
-//	LastPayment();
-//	findByOrderBySeatNumberAsc
-//	Select f from Foo as f order by f.id desc
-//	@Query("select p.paymentId from payment p order by p.paymentId desc limit 1")
   Payment findTop1ByOrderByPaymentIdDesc();
 
   @Query("select count(p) from payment p where storeId = :storeId")
@@ -80,6 +72,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>,
   @Query("select count(p) from payment p where userId = :userId")
   int countUserPayment(int userId);
 
-	@Query("select p from payment p where storeId= :storeId and date between :startDate and :endDate")
-	Page<Payment> findAllByStoreCustom(int storeId, Pageable pageable, LocalDateTime startDate, LocalDateTime endDate);
+  @Query("select p from payment p where storeId= :storeId and date between :startDate and :endDate")
+  Page<Payment> findAllByStoreCustom(int storeId, Pageable pageable, LocalDateTime startDate, LocalDateTime endDate);
 }

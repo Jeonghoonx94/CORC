@@ -1,15 +1,5 @@
 package com.web.shinhan.model.service;
 
-import com.web.shinhan.entity.Store;
-import com.web.shinhan.entity.User;
-import com.web.shinhan.model.BlockUserDto;
-import com.web.shinhan.model.PaymentitemDto;
-import com.web.shinhan.model.StoreDto;
-import com.web.shinhan.model.TransactionDto;
-import com.web.shinhan.model.UserDto;
-import com.web.shinhan.repository.StoreRepository;
-import com.web.shinhan.repository.UserRepository;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,15 +9,24 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.web.shinhan.entity.Payment;
+import com.web.shinhan.entity.Store;
+import com.web.shinhan.entity.User;
+import com.web.shinhan.model.BlockUserDto;
 import com.web.shinhan.model.PaymentDto;
+import com.web.shinhan.model.PaymentitemDto;
+import com.web.shinhan.model.StoreDto;
+import com.web.shinhan.model.TransactionDto;
+import com.web.shinhan.model.UserDto;
 import com.web.shinhan.model.mapper.PaymentMapper;
 import com.web.shinhan.repository.PaymentRepository;
+import com.web.shinhan.repository.StoreRepository;
+import com.web.shinhan.repository.UserRepository;
+
 import reactor.core.publisher.Mono;
 
 @Service
@@ -50,9 +49,6 @@ public class PaymentService {
 
   @Autowired
   private UserService userService;
-
-  @Autowired
-  private StoreService storeService;
 
   @Autowired
   private PaymentitemService paymentitemService;
@@ -337,7 +333,6 @@ public class PaymentService {
     LocalDateTime startDate = LocalDateTime.of(now.getYear(), now.getMonth(), 1, 0, 0);
     LocalDateTime endDate = LocalDateTime
         .of(now.getYear(), now.getMonth(), now.lengthOfMonth(), 23, 59, 59);
-    System.out.println(startDate + ", " + endDate);
     List<Integer> totalUsed = paymentRepository.findTotalByStoreId(storeId, startDate, endDate);
     for (int nc : totalUsed) {
       total += nc;
@@ -441,21 +436,6 @@ public class PaymentService {
   public List<Integer[]> calcNotConfirmed() {
     List<Integer[]> notConfirmed = paymentRepository.findTotalByStatusandStoreId();
     return notConfirmed;
-  }
-
-  public int countStorePayment(int storeId) {
-    int count = paymentRepository.countStorePayment(storeId);
-    return count;
-  }
-
-  public int countPayment() {
-    int count = (int) paymentRepository.count();
-    return 0;
-  }
-
-  public int countUserPayment(int userId) {
-    int count = paymentRepository.countUserPayment(userId);
-    return 0;
   }
 
   public Page<PaymentDto> findStorePaymentCustom(int storeId, Pageable pageable, int startDate,

@@ -21,13 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.shinhan.entity.Payment;
 import com.web.shinhan.model.GugunDto;
 import com.web.shinhan.model.PaymentDto;
-import com.web.shinhan.model.PaymentitemDto;
 import com.web.shinhan.model.SidoDto;
 import com.web.shinhan.model.StoreDto;
-import com.web.shinhan.model.UserDto;
 import com.web.shinhan.model.service.AreaService;
 import com.web.shinhan.model.service.PaymentService;
 import com.web.shinhan.model.service.PaymentitemService;

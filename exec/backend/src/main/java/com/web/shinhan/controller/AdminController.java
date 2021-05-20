@@ -1,13 +1,10 @@
 package com.web.shinhan.controller;
 
-import com.web.shinhan.model.BlockUserDto;
 import com.web.shinhan.model.service.BlockchainService;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +33,6 @@ import com.web.shinhan.model.service.StoreService;
 import com.web.shinhan.model.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/admin")
@@ -69,7 +65,6 @@ public class AdminController {
     HttpStatus status = HttpStatus.OK;
     Page<UserDto> page = null;
 
-    // 회원 정보 조회
     try {
       page = userService.findAllUser(pageable);
       resultMap.put("userList", page);
@@ -113,7 +108,6 @@ public class AdminController {
     Page<PaymentDto> page = null;
     HttpStatus status = HttpStatus.ACCEPTED;
 
-    // 회원 정보 조회
     try {
       resultMap.put("info", userService.findUserInfo(userId));
       page = paymentService.findUserPayment(userId, pageable);
@@ -134,7 +128,7 @@ public class AdminController {
 
     Map<String, Object> resultMap = new HashMap<>();
     HttpStatus status = HttpStatus.ACCEPTED;
-    // 회원 정보 조회
+
     try {
       List<SidoDto> sido = areaService.findSidoAll();
       resultMap.put("sido", sido);
@@ -155,7 +149,7 @@ public class AdminController {
 
     Map<String, Object> resultMap = new HashMap<>();
     HttpStatus status = HttpStatus.ACCEPTED;
-    // 회원 정보 조회
+
     try {
       List<GugunDto> gugun = areaService.findGugun(sidoCode);
       resultMap.put("gugun", gugun);
@@ -176,11 +170,9 @@ public class AdminController {
     HttpStatus status = HttpStatus.ACCEPTED;
     boolean flag = false;
 
-    // 회원 정보 담기
     user.setAccessTime(LocalDateTime.now());
     user.setLimitTime(LocalDateTime.now().plusDays(30));
 
-    // 회원가입
     try {
 		if(!userService.employeeNumCheck(user.getEmployeeNum())) {
 			userService.registUser(user);
@@ -241,27 +233,6 @@ public class AdminController {
     return new ResponseEntity<Boolean>(flag, status);
   }
 
-  @ApiOperation(value = "이메일 중복 체크", notes = "같은 이메일로 가입한 사용자가 있는지 확인한다.", response = Boolean.class)
-  @PostMapping("/check/email")
-  public ResponseEntity<Boolean> emailCheck(@RequestParam String email) {
-    logger.info("emailCheck - 호출");
-
-    HttpStatus status = HttpStatus.ACCEPTED;
-
-    return new ResponseEntity<Boolean>(userService.emailCheck(email), status);
-  }
-
-  @ApiOperation(value = "사번 중복 체크", notes = "같은 사번으로 가입한 사용자가 있는지 확인한다.", response = Boolean.class)
-  @PostMapping("/check/employeenum")
-  public ResponseEntity<Boolean> employeeNumCheck(@RequestParam int employeeNum) {
-    logger.info("employeeNumCheck - 호출");
-
-    HttpStatus status = HttpStatus.ACCEPTED;
-
-    return new ResponseEntity<Boolean>(userService.employeeNumCheck(employeeNum), status);
-
-  }
-
   @ApiOperation(value = "회원 정보 수정", notes = "회원의 정보를 수정한다.", response = Boolean.class)
   @PutMapping("/user/modify/info")
   public ResponseEntity<Boolean> modifyUserInfo(@RequestBody UserDto newDto) {
@@ -292,8 +263,6 @@ public class AdminController {
     HttpStatus status = HttpStatus.ACCEPTED;
     boolean flag = false;
     
-    System.out.println(userIds);
-
     try {
       for (int userId : userIds) {
         flag = userService.modifyCardLimit(userId, limit);
@@ -464,7 +433,6 @@ public class AdminController {
     Map<String, Object> resultMap = new HashMap<>();
     HttpStatus status = HttpStatus.ACCEPTED;
 
-    // 가맹점 정보 조회
     try {
       resultMap.put("info", storeService.findStoreInfo(storeId));
       status = HttpStatus.ACCEPTED;
@@ -487,7 +455,6 @@ public class AdminController {
     Page<PaymentDto> page = null;
     HttpStatus status = HttpStatus.ACCEPTED;
 
-    // 가맹점 정보 조회
     try {
       resultMap.put("info", storeService.findStoreInfo(storeId));
       page = paymentService.findStorePayment(storeId, pageable);
@@ -509,7 +476,6 @@ public class AdminController {
     HttpStatus status = HttpStatus.ACCEPTED;
     boolean flag = false;
 
-    // 가맹점가입
     try {
       storeService.registStore(store);
       flag = true;
@@ -530,11 +496,8 @@ public class AdminController {
     HttpStatus status = HttpStatus.ACCEPTED;
     boolean flag = false;
 
-    System.out.println(newDto.toString());
-    
-    // 가맹점 정보 조회
     String email = newDto.getEmail();
-    // 가맹점 소개 수정
+
     try {
       flag = storeService.modifyStoreInfo(email, newDto);
       status = HttpStatus.ACCEPTED;
@@ -555,7 +518,6 @@ public class AdminController {
     HttpStatus status = HttpStatus.ACCEPTED;
     boolean flag = false;
 
-    // 가맹점 탈퇴
     try {
       if(storeIds.length != 0) {
       if (storeStatus == 2) {

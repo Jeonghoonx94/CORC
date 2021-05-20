@@ -1,16 +1,8 @@
 package com.web.shinhan.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.*;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -80,16 +72,4 @@ public class Store {
     this.testCode = testCode;
   }
 
-  @Override
-  public String toString() {
-    return "Store [storeId=" + storeId + ", crNum=" + crNum + ", categoryCode=" + categoryCode
-        + ", email=" + email
-        + ", password=" + password + ", storeName=" + storeName + ", contact=" + contact
-        + ", bankName=" + bankName
-        + ", account=" + account + ", sidoCode=" + sidoCode + ", gugunCode=" + gugunCode
-        + ", requestDate="
-        + requestDate + ", accepted=" + accepted + ", total=" + total + ", category=" + category
-        + ", sido=" + sido
-        + ", gugun=" + gugun + ", testCode=" + testCode + "]";
-  }
 }
